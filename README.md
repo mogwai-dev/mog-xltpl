@@ -12,6 +12,14 @@ When xltpl reads a xls/x file, it creates a tree for each worksheet.
 And, each tree is translated to a jinja2 template with custom tags.  
 When the template is rendered, jinja2 extensions of custom tags call corresponding tree nodes to write the xls/x file.
 
+## Visual example (before/after)
+
+Sample `static_image.xlsm` rendered with `static_image.yaml` (images live in `images/`).
+
+| Template | Rendered output |
+| --- | --- |
+| ![Template preview](images/before_excel.png) | ![Rendered preview](images/after_excel.png) |
+
 ## How to install
 
 ```shell
