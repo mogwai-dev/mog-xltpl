@@ -136,13 +136,6 @@ You can also use keyword arguments:
 {{ image_path | img(width=120, height=140) }}
 ```
 
-In your TOML file:
-
-```toml
-[variables]
-avatar_path = "images/avatar.jpg"
-```
-
 **Other handy filters**
 
 - `sha256`: `{{ file | sha256 }}`
