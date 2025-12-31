@@ -1,0 +1,38 @@
+# リスト展開のサンプル
+# Usage: uv run xltpl examples/sample_list.toml
+
+[xltpl_input]
+template = "examples/sample_list_template.xlsx"
+
+[[xltpl_output]]
+path = "examples/sample_list_result.xlsx"
+
+[variables]
+title = "社員名簿"
+issue_date = "2025-12-29"
+department = "開発部"
+
+# 社員リスト（行に展開）
+[[variables.employees]]
+id = "001"
+name = "山田太郎"
+position = "部長"
+email = "yamada@example.com"
+
+[[variables.employees]]
+id = "002"
+name = "佐藤花子"
+position = "課長"
+email = "sato@example.com"
+
+[[variables.employees]]
+id = "003"
+name = "鈴木一郎"
+position = "主任"
+email = "suzuki@example.com"
+
+[[variables.employees]]
+id = "004"
+name = "田中美咲"
+position = "社員"
+email = "tanaka@example.com"

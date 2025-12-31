@@ -1,0 +1,50 @@
+# sample variables for examples/sample_invoice.xlsx
+# Usage: uv run xltpl examples/sample_invoice.toml
+
+[xltpl_input]
+template = "examples/sample_invoice.xlsx"
+
+[[xltpl_output]]
+path = "invoice_result.xlsx"
+
+[[xltpl_output]]
+path = "invoice_highlight.xlsx"
+highlight = true
+highlight_color = "FFFF9999"
+
+[variables]
+issue_date = "2025-12-29"
+note = "xltpl テンプレート例"
+remarks = "items に dict のリストを渡すと明細行が繰り返され、sum(attribute=...) で集計できます。"
+
+[variables.customer]
+name = "山田太郎"
+company = "サンプル株式会社"
+
+# 明細行
+[[variables.items]]
+name = "ノート"
+qty = 5
+price = 120
+tax_rate = 0.1
+subtotal = 600
+tax_amount = 60
+total = 660
+
+[[variables.items]]
+name = "ボールペン"
+qty = 12
+price = 80
+tax_rate = 0.1
+subtotal = 960
+tax_amount = 96
+total = 1056
+
+[[variables.items]]
+name = "ファイル"
+qty = 3
+price = 260
+tax_rate = 0.1
+subtotal = 780
+tax_amount = 78
+total = 858

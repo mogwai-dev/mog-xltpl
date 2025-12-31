@@ -1,0 +1,17 @@
+vars:
+  TITLE: XLTPL
+  NAME: mog wai
+  NUM: 1
+  SAMPLE_IMG_1_PATH: "examples/images/{{.NUM}}.jpg"
+  items:
+    - name: "Apple"
+      qty: 2
+      price: 300
+    - name: "Banana"
+      qty: 5
+      price: 120
+    - name: "Cherry"
+      qty: 20
+      price: 50
+  # シート名もテンプレートで置換できます（全シート同名になる場合）
+  sheet_name: "{{ .TITLE }}-{{ .NAME }}"

@@ -1,0 +1,4 @@
+vars:
+  project: "demo"
+  date: "2025-12-30"
+  customer: "ACME"

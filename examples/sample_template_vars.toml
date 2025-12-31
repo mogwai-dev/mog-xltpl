@@ -1,0 +1,35 @@
+# Template path and output path rendering example
+# Usage: uv run xltpl examples/sample_template_vars.toml
+# This demonstrates using Jinja2 template syntax in paths
+
+[xltpl_input]
+template = "examples/sample_{{ doc_type }}.xlsx"
+
+[[xltpl_output]]
+path = "result_{{ doc_type }}_{{ date }}.xlsx"
+
+[[xltpl_output]]
+path = "result_{{ doc_type }}_{{ date }}_highlight.xlsx"
+highlight = true
+highlight_color = "FFFF9999"
+
+[variables]
+# These variables are used both for path rendering AND for template content
+doc_type = "invoice"
+date = "2025-12-30"
+issue_date = "2025-12-30"
+note = "テンプレートパス変数の例"
+remarks = "template と outputs の path フィールドで {{ variable }} 構文が使えます。"
+
+[variables.customer]
+name = "テスト太郎"
+company = "テスト株式会社"
+
+[[variables.items]]
+name = "商品A"
+qty = 1
+price = 1000
+tax_rate = 0.1
+subtotal = 1000
+tax_amount = 100
+total = 1100

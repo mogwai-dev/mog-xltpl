@@ -1,0 +1,34 @@
+# Sample tasks for xltpl using shared [variables]
+# Usage: uv run xltpl examples/sample_tasks.toml
+
+[variables]
+project = "demo"
+date = "2025-12-30"
+customer = "ACME"
+base_out = "output/{{ project }}/{{ date }}"
+
+# Excel task 1
+[[xltpl_tasks]]
+type = "excel"
+template = "examples/sample_invoice.xlsx"
+[[xltpl_tasks.outputs]]
+path = "{{ base_out }}/invoice_{{ customer }}.xlsx"
+[[xltpl_tasks.outputs]]
+path = "{{ base_out }}/invoice_{{ customer }}_highlight.xlsx"
+highlight = true
+highlight_color = "FFFF9999"
+
+# Excel task 2
+[[xltpl_tasks]]
+type = "excel"
+template = "examples/sample_list_template.xlsx"
+[[xltpl_tasks.outputs]]
+path = "{{ base_out }}/list_{{ project }}.xlsx"
+
+# Copy task (optional)
+[[xltpl_tasks]]
+type = "copy"
+source = "examples/images/*.jpg"
+dest_dir = "{{ base_out }}/images"
+preserve_tree = false
+overwrite = true
