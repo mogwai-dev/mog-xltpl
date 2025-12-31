@@ -32,7 +32,7 @@ test = [
 ]
 
 [project.scripts]
-xltpl = "xltpl.cli:main"
+mog-xltpl = "xltpl.cli:main"
 
 [build-system]
 requires = ["setuptools", "wheel"]
