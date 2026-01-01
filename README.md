@@ -190,10 +190,8 @@ This tool uses **Excel COM API** (via pywin32) for saving files to ensure comple
 3. Update only cell values from rendered data
 4. Save via COM API → All images, drawings, and formatting preserved
 
-### Testing Reproducibility
 
-To verify that images and formatting are preserved:
+## If you like my work, you can support me here:
 
-```bash
-# Create a test template with images
-# Use static_image.xlsm as example
+[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/mogwai.dev)
+
