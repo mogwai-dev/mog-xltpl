@@ -4,6 +4,27 @@ version = "1.0.0"
 description = "A Windows-only xltpl fork that preserves VBA, images, and complex Excel formatting using COM"
 readme = "README_EN.md"
 requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+    {name = "mogwai"}
+]
+keywords = ["Excel", "xls", "xlsx", "spreadsheet", "workbook", "template", "VBA", "COM", "Windows", "preserve", "formatting", "jinja2", "openpyxl"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup",
+]
 dependencies = [
     "xlrd>=1.2.0",
     "xlwt>=1.3.0",
@@ -15,16 +36,13 @@ dependencies = [
     "pywin32>=311",
     "pillow>=9.0.0",
 ]
-authors = [
-    {name = "mog (forked from Zhang Yu)"}
-]
-license = {file = "LICENSE"}
-keywords = ["Excel", "xls", "xlsx", "spreadsheet", "workbook", "template", "VBA", "COM", "Windows", "preserve", "formatting"]
 
 [project.urls]
-"Homepage" = "https://github.com/[YOUR-USERNAME]/mog-xltpl"
-"Original" = "https://github.com/zhangyu836/xltpl"
-"Bug Tracker" = "https://github.com/[YOUR-USERNAME]/mog-xltpl/issues"
+Homepage = "https://github.com/mogwai-dev/mog-xltpl"
+Repository = "https://github.com/mogwai-dev/mog-xltpl"
+Original = "https://github.com/zhangyu836/xltpl"
+Issues = "https://github.com/mogwai-dev/mog-xltpl/issues"
+Documentation = "https://github.com/mogwai-dev/mog-xltpl#readme"
 
 [project.optional-dependencies]
 test = [
@@ -35,5 +53,8 @@ test = [
 mog-xltpl = "xltpl.cli:main"
 
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["xltpl"]

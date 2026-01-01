@@ -1,27 +1,44 @@
 
-# xltpl
-A python module to generate xls/x files from a xls/x template. [中文](README.md) | [日本語](README_JA.md)
+# mog-xltpl
+
+[![PyPI version](https://badge.fury.io/py/mog-xltpl.svg)](https://pypi.org/project/mog-xltpl/)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A Windows-only **CLI tool** and Python module to generate `.xlsx`/`.xlsm` files from templates while preserving VBA, images, and complex Excel formatting using COM. [中文](README.md) | [日本語](README_JA.md)
+
+**Primary Use**: Command-line tool for templated Excel document generation via Taskfile integration.
 
 > **Note**: This tool is designed to work with [Taskfile](https://taskfile.dev/). It uses YAML `vars:` sections for variable definitions, allowing you to specify templates and output files from Taskfile.
 > Taskfile-style `{{ .VAR }}` is not a full Go template implementation; we only normalize it to `{{ VAR }}` before rendering.
 
 ## How it works
 
-When xltpl reads a xls/x file, it creates a tree for each worksheet.  
-And, each tree is translated to a jinja2 template with custom tags.  
-When the template is rendered, jinja2 extensions of cumtom tags call corresponding tree nodes to write the xls/x file.
+When xltpl reads a `.xlsx`/`.xlsm` file, it creates a tree for each worksheet.  
+Each tree is translated to a Jinja2 template with custom tags.  
+When the template is rendered, Jinja2 extensions of custom tags call corresponding tree nodes to write the output file.
+
+**Key Feature**: Uses Excel COM API (via `pywin32`) to ensure complete preservation of images, drawings, and Excel-specific formatting that other tools cannot maintain.
 
 ## How to install
 
 ```shell
-pip install xltpl
+pip install mog-xltpl
+```
+
+**or with uv tool (recommended):**
+
+```shell
+uv tool install mog-xltpl
 ```
 
 **Requirements:**
+- Windows OS
 - Python 3.8+
-- pywin32 (Windows only, required for preserving images and formatting)
+- Microsoft Excel (COM API access required)
+- `pywin32` (automatically installed, required for preserving images and formatting)
 
-> **Note**: This tool uses Excel COM API via pywin32 to ensure complete preservation of images, drawings, and Excel-specific formatting. Without pywin32, the tool will fail with a clear error message.
+> **Note**: This tool requires Windows and Microsoft Excel because it uses Excel COM API to ensure complete preservation of images, drawings, and Excel-specific formatting. Without Excel or on non-Windows systems, the tool will exit with an error message.
 
 ### Develop & test with uv
 
@@ -31,26 +48,29 @@ uv pip install -e .[test]
 uv run pytest
 ```
 
-### CLI (template + YAML)
+## Quick Start: CLI Usage (Recommended)
+
+### Simple Usage
 
 Specify template file, output file, and variables file:
 
 ```shell
-uv run xltpl template.xlsx output.xlsx vars.yaml
+mog-xltpl template.xlsx output.xlsx vars.yaml
 
 # To emit an additional highlighted copy (auto-named as output_highlight.xlsx)
-uv run xltpl template.xlsx output.xlsx vars.yaml --highlight-output
+mog-xltpl template.xlsx output.xlsx vars.yaml --highlight-output
 
 # If you want to set color explicitly
-uv run xltpl template.xlsx output.xlsx vars.yaml \
+mog-xltpl template.xlsx output.xlsx vars.yaml \
   --highlight-output \
   --highlight-color FFFF9999
 ```
 
-**Integration with Taskfile:**
+### Integration with Taskfile (Recommended Workflow)
+
+**Taskfile.yml:**
 
 ```yaml
-# Taskfile.yml
 version: '3'
 
 vars:
@@ -61,10 +81,10 @@ vars:
 tasks:
   render:
     cmds:
-      - xltpl templates/{{.DOC_TYPE}}.xlsx output/result.xlsx vars.yaml
+      - mog-xltpl templates/{{.DOC_TYPE}}.xlsx output/result.xlsx vars.yaml
 ```
 
-YAML file contains only variables (same style as Taskfile's `vars:`):
+**vars.yaml:**
 
 ```yaml
 vars:
@@ -78,17 +98,23 @@ vars:
       price: 2000
 ```
 
-#### Path Expansion Rules
+**Run:**
+
+```bash
+task render
+```
+
+### Path Expansion Rules
 - Template and output files are specified from the command line.
 - YAML file contains only the `vars` section.
 - Relative paths are resolved from the execution directory.
 - Use `--highlight-output` to auto-emit a highlighted copy named `<output>_highlight` (color via `--highlight-color`, e.g., `FFFF9999`).
 
-#### Vars resolution
+### Vars Resolution
 - `vars` accepts either a mapping or a list of single-key mappings (Taskfile style: `- KEY: value`).
-- Values are rendered against the same `vars` map for a few passes, so self-references like `FOOBAR: "foo_{{ .BAR }}"` are expanded before the workbook is rendered.
+- Values are rendered against the same `vars` map for a few passes, so self-references like `FOOBAR: "foo_{{ VAR }}"` are expanded before the workbook is rendered.
 
-## How to use
+## Python API (Advanced Usage)
 
 *   To use xltpl, you need to be familiar with the [syntax of jinja2 template](https://jinja.palletsprojects.com/).
 *   Get a pre-written xls/x file as the template.

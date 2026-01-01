@@ -158,6 +158,7 @@ def build_parser():
     p.add_argument("template", help="path to Excel template file")
     p.add_argument("output", help="path to output Excel file")
     p.add_argument("yaml", help="path to YAML config file (contains vars)")
+    p.add_argument("--version", action="version", version="%(prog)s 1.0.0")
     p.add_argument("--highlight-output", action="store_true", help="also emit a highlighted copy using default name <output>_highlight", dest="highlight_output")
     p.add_argument("--highlight-color", help="highlight color (ARGB, e.g., FFFF9999)")
     return p

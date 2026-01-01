@@ -1,12 +1,17 @@
-git clone https://github.com/[YOUR-USERNAME]/mog-xltpl.git
 # mog-xltpl
 
-Excel テンプレートから xls/x ファイルを生成する Windows 専用フォーク版です（VBA画像書式を完全に保存）。
+[![PyPI version](https://badge.fury.io/py/mog-xltpl.svg)](https://pypi.org/project/mog-xltpl/)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[English](README.md) | [中文](README_ZH.md)
+Excel テンプレートから `.xlsx`/`.xlsm` ファイルを生成する **Windows 専用 CLI ツール**（VBA/画像/書式を完全に保存）。
 
-> ** 重要：Windows専用版**
-> [xltpl](https://github.com/zhangyu836/xltpl) のフォークで、Excel COM API を使い VBA/画像/書式を完全保持します。
+[English](README_EN.md) | [中文](README_ZH.md)
+
+**主な用途**: Taskfile との連携による テンプレートベースの Excel 文書生成。
+
+> **重要：Windows 専用版**  
+> [xltpl](https://github.com/zhangyu836/xltpl) のフォークで、Excel COM API を使い VBA/画像/複雑な書式を完全保持します。  
 > Linux/Mac では動作しません。クロスプラットフォームが必要な場合はオリジナル版をご利用ください。
 
 ## オリジナル版との主な違い
@@ -14,6 +19,8 @@ Excel テンプレートから xls/x ファイルを生成する Windows 専用�
 - テンプレートの画像図形オブジェクトを保持
 - 条件付き書式データ検証など複雑な書式を保持
 - `{% img %}` タグ：プレースホルダーなし挿入、スペース区切り/カンマ区切り両対応
+- **CLI ツール**: Taskfile 連携で推奨
+- **Python ライブラリ**: 高度な使用にも対応
 - Windows 専用（pywin32 + Excel COM）、Excel インストール必須
 
 ## サンプル画像（before/after）
@@ -25,36 +32,50 @@ Excel テンプレートから xls/x ファイルを生成する Windows 専用�
 | ![Before](images/before_excel.png) | ![After](images/after_excel.png) |
 
 ## インストール
-要件: Windows / Microsoft Excel / Python 3.8+ / pywin32>=311
 
-```
+**要件:** Windows / Microsoft Excel / Python 3.8+
+
+```bash
 pip install mog-xltpl
 ```
 
-開発版:
-```
-git clone https://github.com/[YOUR-USERNAME]/mog-xltpl.git
-cd mog-xltpl
-pip install -e .[test]
+**または uv ツール（推奨）:**
+
+```bash
+uv tool install mog-xltpl
 ```
 
-uv を使う場合:
-```
+**開発版:**
+
+```bash
+git clone https://github.com/mogwai-dev/mog-xltpl.git
+cd mog-xltpl
 uv venv
 uv pip install -e .[test]
 uv run pytest
 ```
 
-## 使い方（CLI）
-```
-uv run xltpl template.xlsx output.xlsx vars.yaml
-uv run xltpl template.xlsx output.xlsx vars.yaml --highlight-output
-uv run xltpl template.xlsx output.xlsx vars.yaml --highlight-output --highlight-color FFFF9999
+## クイックスタート: CLI 使用（推奨）
+
+### シンプルな使用方法
+
+```bash
+mog-xltpl template.xlsx output.xlsx vars.yaml
+
+# ハイライト付きコピーも生成（output_highlight.xlsx）
+mog-xltpl template.xlsx output.xlsx vars.yaml --highlight-output
+
+# 色を明示的に指定
+mog-xltpl template.xlsx output.xlsx vars.yaml \
+  --highlight-output \
+  --highlight-color FFFF9999
 ```
 
-### Taskfile 連携例
-```
-# Taskfile.yml
+### Taskfile 連携例（推奨ワークフロー）
+
+**Taskfile.yml:**
+
+```yaml
 version: '3'
 
 vars:
@@ -65,11 +86,12 @@ vars:
 tasks:
   render:
     cmds:
-      - xltpl templates/{{.DOC_TYPE}}.xlsx output/result.xlsx vars.yaml
+      - mog-xltpl templates/{{.DOC_TYPE}}.xlsx output/result.xlsx vars.yaml
 ```
 
-### vars（YAML）の例
-```
+**vars.yaml:**
+
+```yaml
 vars:
   doc_type: "invoice"
   date: "2025-12-30"
@@ -79,6 +101,12 @@ vars:
       price: 1000
     - name: "商品B"
       price: 2000
+```
+
+**実行:**
+
+```bash
+task render
 ```
 
 ## 画像挿入
